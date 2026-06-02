@@ -3,8 +3,15 @@
     <div class="landing-container">
       <div class="what-section__grid">
         <div class="what-section__image-placeholder" aria-label="Ilustração futura">
-          <q-icon name="mdi-image-outline" size="54px" class="text-movve-blue" />
-          <p>Ilustração da solução</p>
+          <div
+            class="what-section__splash-frame"
+            role="img"
+            aria-label="Mulher fazendo alongamento corporativo"
+            :style="{
+              '--splash-image': `url(${splashMask})`,
+              '--illustration-image': `url(${standingWoman})`,
+            }"
+          ></div>
         </div>
 
         <q-card flat class="what-section__card what-section__content-card">
@@ -35,6 +42,9 @@
 </template>
 
 <script setup>
+import splashMask from 'assets/backgrounds/mask.png'
+import standingWoman from 'assets/illustrations/standing-woman-1.svg'
+
 const items = [
   'Ginástica Laboral',
   'Laboral Neuroativa',
@@ -108,19 +118,25 @@ const items = [
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 16px;
-  border: 1px dashed rgba(4, 50, 113, 0.24);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.52);
-  color: #4b5563;
   text-align: center;
 }
 
-.what-section__image-placeholder p {
-  max-width: 180px;
-  margin: 0;
-  font-weight: 700;
-  line-height: 1.35;
+.what-section__splash-frame {
+  position: relative;
+  width: min(118%, 520px);
+  aspect-ratio: 1 / 1.36;
+  overflow: hidden;
+  background: var(--illustration-image) center / 96% no-repeat;
+  filter: drop-shadow(0 28px 48px rgba(4, 50, 113, 0.16));
+  mask-image: var(--splash-image);
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-position: center;
+  -webkit-mask-image: var(--splash-image);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: center;
 }
 
 @media (max-width: 760px) {

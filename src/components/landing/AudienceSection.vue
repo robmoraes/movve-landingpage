@@ -3,8 +3,15 @@
     <div class="landing-container">
       <div class="audience-section__grid">
         <div class="audience-section__image-placeholder" aria-label="Ilustração futura">
-          <q-icon name="mdi-image-outline" size="54px" class="text-movve-blue" />
-          <p>Ilustração do público</p>
+          <div
+            class="audience-section__splash-frame"
+            role="img"
+            aria-label="Homem em pé fazendo exercício com bolinha de espuma"
+            :style="{
+              '--splash-image': `url(${splashMask})`,
+              '--illustration-image': `url(${standingMan})`,
+            }"
+          ></div>
         </div>
 
         <q-card flat class="audience-section__card audience-section__content-card">
@@ -28,6 +35,9 @@
 </template>
 
 <script setup>
+import splashMask from 'assets/backgrounds/mask.png'
+import standingMan from 'assets/illustrations/man-standing-with-foam-ball-2.svg'
+
 const items = [
   {
     icon: 'mdi-office-building-outline',
@@ -108,19 +118,25 @@ const items = [
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 16px;
-  border: 1px dashed rgba(4, 50, 113, 0.24);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.52);
-  color: #4b5563;
   text-align: center;
 }
 
-.audience-section__image-placeholder p {
-  max-width: 180px;
-  margin: 0;
-  font-weight: 700;
-  line-height: 1.35;
+.audience-section__splash-frame {
+  position: relative;
+  width: min(118%, 520px);
+  aspect-ratio: 1 / 1.36;
+  overflow: hidden;
+  background: var(--illustration-image) center / 96% no-repeat;
+  filter: drop-shadow(0 28px 48px rgba(4, 50, 113, 0.16));
+  mask-image: var(--splash-image);
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-position: center;
+  -webkit-mask-image: var(--splash-image);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: center;
 }
 
 @media (max-width: 760px) {

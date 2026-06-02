@@ -23,7 +23,15 @@
         </q-card>
 
         <div class="about-section__image-placeholder" aria-label="Ilustração de ginástica laboral">
-          <img :src="movveWoman1" alt="Movve Woman" />
+          <div
+            class="about-section__splash-frame"
+            role="img"
+            aria-label="Movve Woman"
+            :style="{
+              '--splash-image': `url(${splashMask})`,
+              '--illustration-image': `url(${movveWoman1})`,
+            }"
+          ></div>
         </div>
       </div>
     </div>
@@ -31,7 +39,8 @@
 </template>
 
 <script setup>
-import movveWoman1 from 'assets/illustrations/movve-woman-1.svg'
+import splashMask from 'assets/backgrounds/mask.png'
+import movveWoman1 from 'assets/illustrations/woman-home-office-1.svg'
 
 const cards = [
   {
@@ -127,31 +136,25 @@ const cards = [
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 16px;
   text-align: center;
 }
 
-.about-section__image-placeholder::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 40px;
-  z-index: 0;
-  width: min(56%, 300px);
-  height: 30px;
-  border-radius: 999px;
-  background: rgba(4, 50, 113, 0.32);
-  filter: blur(14px);
-  transform: translateX(-50%) scaleX(1.08);
-}
-
-.about-section__image-placeholder img {
+.about-section__splash-frame {
   position: relative;
-  z-index: 1;
-  width: min(118%, 560px);
-  max-width: none;
-  height: auto;
+  width: min(118%, 520px);
+  aspect-ratio: 1 / 1.36;
+  overflow: hidden;
+  background: var(--illustration-image) center / 96% no-repeat;
   filter: drop-shadow(0 28px 48px rgba(4, 50, 113, 0.16));
+  mask-image: var(--splash-image);
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-position: center;
+  -webkit-mask-image: var(--splash-image);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: center;
 }
 
 @media (max-width: 760px) {
