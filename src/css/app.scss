@@ -1,0 +1,41 @@
+:root {
+  --movve-blue: #043271;
+  --movve-green: #76b53c;
+  --movve-light-blue: #eaf1f8;
+  --movve-light-green: #eef6e8;
+  --movve-background: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--movve-background);
+  color: #1f2937;
+}
+
+.text-movve-blue {
+  color: var(--movve-blue);
+}
+
+.text-movve-green {
+  color: var(--movve-green);
+}
+
+.bg-movve-light-blue {
+  background: var(--movve-light-blue);
+}
+
+.bg-movve-light-green {
+  background: var(--movve-light-green);
+}
+
+.landing-container {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.landing-section {
+  scroll-margin-top: 88px;
+}
