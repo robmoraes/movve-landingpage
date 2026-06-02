@@ -11,7 +11,8 @@ Movve Corporate Landing Page is a Quasar/Vue single-page application for the Mov
 - Main output: static SPA files in `dist/spa`
 - Local development host: `127.0.0.1`
 - Local development port: `9000`
-- Production domain: `movvecorporativo.com.br`
+- Production URL: `https://robmoraes.github.io/movve-landingpage/`
+- Production base path: `/movve-landingpage/`
 
 ## Requirements
 
@@ -82,90 +83,84 @@ Deploy the contents of:
 dist/spa
 ```
 
-Recommended deployment targets include static hosting platforms such as Netlify, Vercel, Cloudflare Pages, or a conventional web server such as Nginx or Apache.
+The current deployment target is the default GitHub Pages repository URL. Other static hosting platforms such as Netlify, Vercel, Cloudflare Pages, Nginx, or Apache can also serve the generated files, but the Quasar `publicPath` must match the final hosted path.
 
 Because the project uses hash routing, no special server rewrite rule is required for route fallback. The generated `index.html` and asset files can be served directly from the web root.
 
+For production builds, Quasar is configured with `publicPath: '/movve-landingpage/'` so generated assets resolve correctly under the default GitHub Pages repository path. Local development continues to use `/`.
+
 ### GitHub Pages Deployment
 
-The recommended publishing target for this repository is GitHub Pages using GitHub Actions.
+The publishing target for this repository is GitHub Pages using GitHub Actions at:
+
+```text
+https://robmoraes.github.io/movve-landingpage/
+```
 
 In the GitHub repository settings:
 
 - Open `Settings > Pages`.
 - Set `Source` to `GitHub Actions`.
-- Add the custom domain `movvecorporativo.com.br`.
-- Keep HTTPS enforcement enabled after DNS validation succeeds.
+- Keep HTTPS enforcement enabled.
 
-Create the workflow file:
+The workflow file is:
 
 ```text
-.github/workflows/deploy-pages.yml
+.github/workflows/deploy.yml
 ```
 
-Recommended workflow:
+Current workflow:
 
 ```yaml
-name: Deploy to GitHub Pages
+name: Deploy GitHub Pages
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run build
 
-      - name: Build
-        run: npm run build
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist/spa
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
 
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
 ```
 
 If the repository is not rooted at this project folder, update the workflow commands with the correct `working-directory`.
 
-### AWS Route 53 Domain Configuration
+### Optional Custom Domain Configuration
 
-The production domain is:
+The current deployment uses the default GitHub Pages URL, not a custom domain. If a custom domain is enabled later, the intended production domain is:
 
 ```text
 movvecorporativo.com.br
